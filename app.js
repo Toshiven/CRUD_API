@@ -82,5 +82,29 @@ app.delete('/:id', (req, res) => {
 	})
   });
 
+    //Update a member
+	app.put('', (req, res) => {
+
+		pool.getConnection((err, connection) => {
+		  if(err) throw err
+		  console.log(`connected as id ${connection.threadId}`);
+	
+		  const {id, name, age} = req.body;
+	  
+		  //query
+		  connection.query('UPDATE members SET name = ? WHERE id = ?', [name, id], (err, rows) =>{
+			connection.release(); //return the connection to pool
+	  
+			if(!err){
+			  res.send(`Member with the name: ${name} has been updated`);
+			} else {
+			  console.log(err);
+			}
+		  })
+		  console.log(req.body);
+		})
+	  });
+	
+
 // Listen on environment port or 5000
 app.listen(port, () => console.log(`listen on port ${port}`));
