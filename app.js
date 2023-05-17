@@ -9,6 +9,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(bodyParser.json());
 
+/*	Use reqbin to get, delete, post, and put data
+	Create a mysql database named crud with a table named members that has id, name, and age
+*/
+
 //mySQL
 const pool = mysql.createPool({
   connectionLimit : 10,
@@ -92,7 +96,7 @@ app.delete('/:id', (req, res) => {
 		  const {id, name, age} = req.body;
 	  
 		  //query
-		  connection.query('UPDATE members SET name = ? WHERE id = ?', [name, id], (err, rows) =>{
+		  connection.query('UPDATE members SET name = ?, age = ? WHERE id = ?', [name, age, id], (err, rows) =>{
 			connection.release(); //return the connection to pool
 	  
 			if(!err){
